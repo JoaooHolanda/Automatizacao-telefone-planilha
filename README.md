@@ -1,3 +1,8 @@
+## Como baixar???
+<h1>Só clicar em 'code' e depois em <strong>'Download to ZIp'</strong></h1>
+
+
+
 # Como usar?
 
 # antes de tudo é necessário intalar o python no computador 
