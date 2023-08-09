@@ -24,13 +24,15 @@ def Corretor(numero):
             return numero
     
     if len(numero) == 11:
-        if numero[2] not in {'1', '2', '3', '4', '5'}:
-            return numero[:2] + '9' + numero[2:]
-        else:
             return numero
     
     if len(numero) == 10:
-        return numero[:2] + '9' + numero[2:]
+        if numero[2] not in {'1', '2', '3', '4', '5'}:
+            return numero[:2] + '9' + numero[2:]
+        else:
+            #tira os telefones fixos esse de baixo
+            # numero = 0
+            return numero
     
     if len(numero) == 9:
         return '85' + numero
