@@ -2,6 +2,7 @@ import re
 import datetime
 import pandas as pd
 import ctypes
+import tkinter as tk
 
 def Corretor(numero):
     numero = str(numero)
@@ -10,6 +11,9 @@ def Corretor(numero):
     
     if re.search(padrao, numero):
         return '0'
+    
+    if numero.startswith('55'):
+        return numero[2:]
     
     if len(numero) > 13:
         return numero
@@ -46,6 +50,37 @@ def Corretor(numero):
     if len(numero) == 0:
         return '0'
 
+def capturar_dados():
+    janela.quit()  # Fecha a janela
+
+# Cria a janela principal
+janela = tk.Tk()
+janela.title("Interface de Entrada de Dados")
+
+# Cria uma variável para armazenar a entrada
+entrada_var = tk.StringVar()
+
+# Cria um rótulo para o título
+titulo_label = tk.Label(janela, text="Nome do Arquivo")
+titulo_label.pack()
+
+# Cria um rótulo para a descrição
+descricao_label = tk.Label(janela, text="Digite abaixo o nome que você deseja:")
+descricao_label.pack()
+
+# Cria um campo de entrada
+entrada_entry = tk.Entry(janela, textvariable=entrada_var)
+entrada_entry.pack()
+
+# Cria um botão para capturar os dados
+capturar_botao = tk.Button(janela, text="Capturar Dados", command=capturar_dados)
+capturar_botao.pack()
+
+
+# Inicia o loop principal da interface gráfica
+janela.mainloop()
+
+
 def exibir_alerta(titulo, mensagem):
     ctypes.windll.user32.MessageBoxW(0, mensagem, titulo, 0)
 
@@ -57,7 +92,7 @@ except FileNotFoundError:
 linha = 0
 
 while linha < len(tabela):
-    nome = int(tabela.loc[linha, 'CD_PESSOA_FISICA'])
+    nome = str(tabela.loc[linha, 'CD_PESSOA_FISICA'])
 
     try:
         number = int(tabela.loc[linha, 'TEL_CELULAR'])
@@ -70,4 +105,4 @@ while linha < len(tabela):
 tabela = tabela[(tabela['TEL_CELULAR'] != '0') & (tabela['TEL_CELULAR'] != 0)]
 
 data_atual = datetime.datetime.now().date()
-tabela.to_excel(f"{data_atual}_tratado.xlsx", index=False)
+tabela.to_excel(f"{entrada_var.get()}_tratado.xlsx", index=False)
